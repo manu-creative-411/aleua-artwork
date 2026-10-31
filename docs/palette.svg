@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="200" viewBox="0 0 900 200">
+  <title>ALEUA colour palette</title>
+  <rect x="0" y="0" width="300" height="140" fill="#005bbd"/>
+  <rect x="300" y="0" width="300" height="140" fill="#50a5f1"/>
+  <rect x="600" y="0" width="300" height="140" fill="#ffb400"/>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#1f2933">
+    <text x="20" y="178">ALEUA Blue · #005BBD</text>
+    <text x="320" y="178">Sky Blue · #50A5F1</text>
+    <text x="620" y="178">Gold · #FFB400</text>
+  </g>
+</svg>

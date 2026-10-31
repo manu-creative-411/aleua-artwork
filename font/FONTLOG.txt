@@ -1,0 +1,66 @@
+FONTLOG for Aleua Sans
+======================
+
+This file provides detailed information on the Aleua Sans font software.
+This information should be distributed along with the Aleua Sans fonts
+and any derivative works.
+
+
+Basic Font Information
+----------------------
+
+Aleua Sans is a rounded geometric monoline typeface designed for the
+visual identity of Asociación ALEUA (Asociación de Lazos Europeos y
+Acción), Mengíbar, Jaén, Spain.
+
+The letterforms are derived from the ALEUA logotype (A, L, E, U) and
+extended into a full Latin character set for Spanish and Western
+European languages. The family currently contains one style, Bold, in
+OpenType/CFF (.otf) and TrueType (.ttf) formats.
+
+The fonts are generated from Python sources (see sources/) and are
+released under the SIL Open Font License, Version 1.1 (see OFL.txt).
+
+
+ChangeLog
+---------
+
+31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.300
+- The ss01 A is now the A of the ALEUA logotype: the open A with the
+  logotype swoosh and the gap where it crosses the right leg, measured
+  from the imagotype artwork (sources/logo_swoosh.json).
+- TrueType rounding keeps the slope of straight edges: end points of
+  diagonal lines are rounded to the integers that best preserve each
+  exact angle, so parallel stroke edges stay parallel in the TTF.
+
+31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.200
+- Redesigned the at sign (@) as a single-storey a wrapped by an open
+  ring.
+- Added the middle dot (U+00B7).
+- Narrower circumflex and dieresis over I and i; accented glyphs are
+  widened when an accent would overhang its neighbours.
+- Exact mirror and rotational symmetry for symmetric glyphs.
+- Exact parallel stroke edges in the OTF (fractional coordinates).
+- Unified optical spacing and kerning model; improved uppercase to
+  lowercase transitions.
+- Added copyright, license and description metadata.
+
+31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.100
+- Outlines fitted with cubic Bézier curves, with nodes on extrema,
+  corners and line joins; OTF (CFF) output added alongside TTF.
+
+30 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.000
+- Initial release: stroke weight, corner radii and proportions measured
+  from the ALEUA logotype; B, D, P and R with square joins; shorter
+  middle arm of E and F; tabular figures; kerning; stylistic sets ss01
+  (logo swoosh A) and ss02 (open A).
+
+
+Acknowledgements
+----------------
+
+If you make modifications, be sure to add your name (N), email (E),
+web-address (W) and description (D). This list is in alphabetical order.
+
+N: The Aleua Sans Project Authors
+D: Original design and build scripts (see AUTHORS.txt)
