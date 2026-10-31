@@ -10,21 +10,20 @@ Usage:
 """
 
 import argparse
-import json
 import math
 from pathlib import Path
 
 from shapely.affinity import scale as shp_scale
 from shapely.affinity import translate
-from shapely.geometry import LineString, Point, Polygon
+from shapely.geometry import LineString, Point
 from shapely.ops import unary_union
 
+from aleua_logo_a import logo_a
 from aleua_output import notdef_contours, outline, save_otf, save_ttf
 from aleua_spacing import Spaced, fit_accents, kern_feature, spacing_rule
 from aleua_symmetry import detect, symmetrize_contours, symmetrize_geom
 
 FILE_STEM = "AleuaSans-Bold"
-SWOOSH_DATA = Path(__file__).resolve().parent / "logo_swoosh.json"
 DEFAULT_OUT = Path(__file__).resolve().parent.parent / "fonts"
 UPM = 1000
 DIGITS = ["zero", "one", "two", "three", "four", "five", "six", "seven",
@@ -194,37 +193,6 @@ def cap_a_bare():
 def cap_a():
     """Text A with a crossbar for legibility."""
     return cap_a_bare() + [S([(78, 225), (438, 225)])]
-
-
-def load_rings(items, origin):
-    """Shapely polygons from JSON rings stored relative to origin."""
-    ox, oy = origin
-    polys = []
-    for item in items:
-        shell = [(x + ox, y + oy) for x, y in item["exterior"]]
-        holes = [[(x + ox, y + oy) for x, y in ring]
-                 for ring in item["interiors"]]
-        polys.append(Polygon(shell, holes).buffer(0))
-    return unary_union(polys)
-
-
-def logo_a(open_a):
-    """A of the logotype: open A, gap where the swoosh crosses, swoosh.
-
-    The swoosh and the gap are measured from the imagotype SVG by
-    tools/aleua_logo.py and stored relative to the open A bounding box.
-    """
-    data = json.loads(SWOOSH_DATA.read_text(encoding="utf-8"))
-    origin = open_a.bounds[:2]
-    cut = load_rings(data["cut"], origin)
-    swoosh = load_rings(data["swoosh"], origin)
-    # extend the gap past the outline only, so no hairline bridge remains
-    reach = cut.buffer(3.0, join_style="mitre",
-                       mitre_limit=100.0).difference(open_a)
-    legs = open_a.difference(unary_union([cut, reach]))
-    legs = legs.buffer(-1.0, join_style="mitre", mitre_limit=100.0).buffer(
-        1.0, join_style="mitre", mitre_limit=100.0)
-    return unary_union([legs, swoosh])
 
 
 def cap_b():
@@ -534,62 +502,103 @@ def low_z():
 
 
 # ---------------------------------------------------------------- digits
+# Figures share one width (FIG_W on the design grid) and one bowl radius
+# (FIG_R), so they sit on a common rhythm and fit tabular advances.
+FIG_W = 330
+FIG_R = FIG_W / 2
+FIG_CX = FIG_W / 2
+LOW_BOWL = BASE + FIG_R      # centre height of lower bowls (3, 5, 6)
+TOP_BOWL = CAP - FIG_R       # centre height of upper bowls (0, 2)
+FLAG_Y = CAP - 137           # height of the end of the flag of the 1
+# the open bowl of the 2 starts at the height of the flag of the 1
+TWO_START = 180 - math.degrees(math.asin((FLAG_Y - TOP_BOWL) / FIG_R))
+
+
+def tangent_angle(centre, radius, point, side):
+    """Angle (degrees) of the point where a line from point touches a circle.
+
+    side=+1 picks the tangent counter-clockwise from the centre-to-point
+    direction, side=-1 the clockwise one.
+    """
+    dx, dy = point[0] - centre[0], point[1] - centre[1]
+    base = math.degrees(math.atan2(dy, dx))
+    return base + side * math.degrees(math.acos(radius / math.hypot(dx, dy)))
+
+
 def d0():
-    """0."""
-    return [S(arc(230, MID, 230, 280, 0, 360, 120))]
+    """0: a stadium, straight sides and round ends of the figure radius."""
+    pts = ([(0, LOW_BOWL), (0, TOP_BOWL)]
+           + arc(FIG_CX, TOP_BOWL, FIG_R, FIG_R, 180, 0)
+           + [(FIG_W, LOW_BOWL)]
+           + arc(FIG_CX, LOW_BOWL, FIG_R, FIG_R, 0, -180))
+    return [S(pts, radius=0)]
 
 
 def d1():
-    """1."""
-    return [S([(0, 520), (170, CAP), (170, BASE)], radius=0)]
+    """1: stem with a straight flag and a horizontal base."""
+    flag = (FIG_CX - 155, FLAG_Y)
+    base_half = 130
+    return [S([flag, (FIG_CX, CAP), (FIG_CX, BASE)], radius=0),
+            S([(FIG_CX - base_half, BASE), (FIG_CX + base_half, BASE)])]
 
 
-def d2():
-    """2."""
-    pts = arc(210, 445, 185, 185, 165, -35) + [(20, BASE), (420, BASE)]
-    return [S(pts, radius=30)]
+def d2(start=TWO_START):
+    """2: open upper bowl, straight diagonal tangent to it, flat base."""
+    corner = (0, BASE)
+    leave = tangent_angle((FIG_CX, TOP_BOWL), FIG_R, corner, 1)
+    leave = (leave - start) % 360 - 360 + start  # clockwise, under a turn
+    pts = arc(FIG_CX, TOP_BOWL, FIG_R, FIG_R, start, leave)
+    return [S(pts + [corner, (FIG_W, BASE)], radius=0)]
 
 
 def d3():
-    """3."""
-    top = arc(200, 480, 150, 150, 155, -90) + [(130, 330)]
-    low = [(130, 330), (200, 330)] + arc(200, 200, 160, 130, 90, -160)
-    return [S(top), S(low)]
+    """3: flat top, diagonal down to a short bar that enters the bowl."""
+    top_of_bowl = LOW_BOWL + FIG_R
+    pts = [(10, CAP), (FIG_W - 10, CAP), (95, top_of_bowl),
+           (FIG_CX, top_of_bowl)]
+    pts += arc(FIG_CX, LOW_BOWL, FIG_R, FIG_R, 90, -150)[1:]
+    return [S(pts, radius=0)]
 
 
 def d4():
-    """4."""
-    return [S([(330, BASE), (330, CAP), (0, 210), (440, 210)], radius=0)]
+    """4: stem, diagonal and crossbar."""
+    stem = FIG_W - 75
+    return [S([(stem, BASE), (stem, CAP), (0, 230), (FIG_W, 230)], radius=0)]
 
 
 def d5():
-    """5."""
-    pts = [(380, CAP), (60, CAP), (45, 370)]
-    pts += arc(205, 220, 165, 150, 150, -155)
-    return [S(pts, radius=40)]
+    """5: flat top meeting the stem at a square corner, like the F bars."""
+    top_of_bowl = LOW_BOWL + FIG_R
+    frame = [(FIG_W - 10, CAP), (25, CAP), (25, top_of_bowl)]
+    lower = [(25, top_of_bowl), (FIG_CX, top_of_bowl)]
+    lower += arc(FIG_CX, LOW_BOWL, FIG_R, FIG_R, 90, -150)[1:]
+    return [S(frame, radius=0), S(lower, radius=0)]
 
 
 def d6():
-    """6."""
-    tail = bez((340, CAP), (130, 580), (50, 420), (55, 230))
-    return [S(arc(215, 220, 160, 150, 0, 360, 90)), S(tail)]
+    """6: lower bowl with a straight stroke tangent to it."""
+    start = (FIG_W - 55, CAP)
+    touch = tangent_angle((FIG_CX, LOW_BOWL), FIG_R, start, 1)
+    pts = [start] + arc(FIG_CX, LOW_BOWL, FIG_R, FIG_R, touch, touch + 360,
+                        180)
+    return [S(pts, radius=0)]
 
 
 def d7():
-    """7."""
-    return [S([(0, CAP), (410, CAP), (130, BASE)], radius=0)]
+    """7: bar and straight diagonal."""
+    return [S([(0, CAP), (FIG_W, CAP), (110, BASE)], radius=0)]
 
 
 def d8():
-    """8."""
-    return [S(arc(210, 490, 140, 140, 0, 360, 90)),
-            S(arc(210, 215, 165, 145, 0, 360, 90))]
+    """8: two stacked circles, the lower one slightly larger."""
+    upper_r, lower_r = 130, 150
+    return [S(arc(FIG_CX, CAP - upper_r, upper_r, upper_r, 0, 360, 120)),
+            S(arc(FIG_CX, BASE + lower_r, lower_r, lower_r, 0, 360, 120))]
 
 
 def d9():
-    """9."""
-    tail = bez((375, 480), (370, 280), (300, 110), (90, BASE))
-    return [S(arc(215, 480, 160, 150, 0, 360, 90)), S(tail)]
+    """9: the 6 turned by 180 degrees, exactly."""
+    return [flip(merge(d6()), grid_y(MID))]
 
 
 # ----------------------------------------------------------- punctuation

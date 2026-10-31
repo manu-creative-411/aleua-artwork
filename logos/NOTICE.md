@@ -5,11 +5,8 @@ Mengíbar, Jaén, Spain.
 
 **Copyright:** © 2026 Asociación ALEUA.
 
-**Credits:**
-
-- Original logo design: members of Asociación ALEUA.
-- Vector artwork and the Aleua Sans lettering: Manu, member of
-  Asociación ALEUA.
+**Credits:** the logo, its vector artwork and the Aleua Sans lettering
+are designed by Asociación ALEUA and its members.
 
 **License:** the logo files in this folder (`imagotype/` and
 `isotype/`, in SVG and PNG) are licensed under the

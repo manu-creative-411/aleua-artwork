@@ -25,7 +25,25 @@ released under the SIL Open Font License, Version 1.1 (see OFL.txt).
 ChangeLog
 ---------
 
-31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.300
+31 October 2026 (Asociación ALEUA) Aleua Sans v1.400
+- Redesigned figures to match the letters. All figures share one width
+  (tabular, 560 units, so they do not shift in clocks and tables) and
+  one bowl radius:
+  - 0 is a stadium with straight sides.
+  - 1 has a horizontal base and a straight flag.
+  - 2 has an open bowl that starts at the height of the flag of 1 and
+    a straight diagonal tangent to it.
+  - 3 and 5 have flat tops and a square join into the bowl, as in P
+    and R; the top bar of 5 meets the stem at a square corner, as the
+    bars of F.
+  - 6 has a straight stroke tangent to its bowl, and 9 is the 6 turned
+    by 180 degrees.
+  - 4 and 7 are made of straight strokes; 0 and 8 are symmetric.
+- Copyright and authorship set to Asociación ALEUA in the font
+  metadata, OFL.txt and AUTHORS.txt.
+- The ss01 A is built in its own module (sources/aleua_logo_a.py).
+
+31 October 2026 (Asociación ALEUA) Aleua Sans v1.300
 - The ss01 A is now the A of the ALEUA logotype: the open A with the
   logotype swoosh and the gap where it crosses the right leg, measured
   from the imagotype artwork (sources/logo_swoosh.json).
@@ -33,7 +51,7 @@ ChangeLog
   diagonal lines are rounded to the integers that best preserve each
   exact angle, so parallel stroke edges stay parallel in the TTF.
 
-31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.200
+31 October 2026 (Asociación ALEUA) Aleua Sans v1.200
 - Redesigned the at sign (@) as a single-storey a wrapped by an open
   ring.
 - Added the middle dot (U+00B7).
@@ -45,11 +63,11 @@ ChangeLog
   lowercase transitions.
 - Added copyright, license and description metadata.
 
-31 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.100
+31 October 2026 (Asociación ALEUA) Aleua Sans v1.100
 - Outlines fitted with cubic Bézier curves, with nodes on extrema,
   corners and line joins; OTF (CFF) output added alongside TTF.
 
-30 October 2026 (The Aleua Sans Project Authors) Aleua Sans v1.000
+30 October 2026 (Asociación ALEUA) Aleua Sans v1.000
 - Initial release: stroke weight, corner radii and proportions measured
   from the ALEUA logotype; B, D, P and R with square joins; shorter
   middle arm of E and F; tabular figures; kerning; stylistic sets ss01
@@ -62,5 +80,6 @@ Acknowledgements
 If you make modifications, be sure to add your name (N), email (E),
 web-address (W) and description (D). This list is in alphabetical order.
 
-N: The Aleua Sans Project Authors
+N: Asociación ALEUA
+W: https://instagram.com/aleua.eu
 D: Original design and build scripts (see AUTHORS.txt)

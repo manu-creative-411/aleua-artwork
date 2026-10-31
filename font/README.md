@@ -21,8 +21,9 @@ The font is free and open source, released under the
 - **Formats:** OpenType/CFF (`.otf`, cubic Bézier curves with exact
   fractional coordinates) and TrueType (`.ttf`, quadratic curves).
 - **154 glyphs** covering Spanish and most Western European Latin text.
-- **Tabular figures:** all digits share the same width, so numbers line
-  up in tables.
+- **Tabular figures:** all digits share the same width (560 units) and
+  the same bowl radius, so numbers line up in tables and do not shift
+  in digital clocks.
 - **Optical spacing and class-based kerning**, including tuned
   uppercase-to-lowercase transitions.
 - **Exact symmetry:** symmetric letters (A, H, O, T, U, V, W, o, v, x…)
@@ -127,6 +128,7 @@ stylistic sets.
 | `aleua_spacing.py` | Optical side bearings, kerning (one white-space model) and the generated `kern` feature. |
 | `aleua_curves.py` | Fits clean cubic Bézier curves to the outlines, with nodes on extrema, corners and line joins. |
 | `aleua_output.py` | Writes the OTF (CFF) and TTF (glyf) files, metadata and metrics; rounds TTF points so straight edges keep their slope. |
+| `aleua_logo_a.py` | Builds the `ss01` A: open A, gap and swoosh of the logotype. |
 | `logo_swoosh.json` | Swoosh and gap of the logotype A, in font units, used by `ss01`. Generated with `../tools/aleua_logo.py extract-swoosh` from the imagotype SVG. |
 
 1. Every glyph is drawn as centre-line strokes. Strokes are expanded to

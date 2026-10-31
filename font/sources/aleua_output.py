@@ -15,8 +15,9 @@ from shapely.geometry.polygon import orient
 from aleua_curves import ring_to_segments
 
 UPM = 1000
-VERSION = 1.3
-COPYRIGHT = "Copyright 2026 The Aleua Sans Project Authors"
+VERSION = 1.4
+AUTHOR = "Asociación ALEUA"
+COPYRIGHT = f"Copyright 2026 {AUTHOR}"
 DESCRIPTION = ("Aleua Sans is a rounded geometric monoline typeface designed "
                "for the visual identity of Asociación ALEUA (Asociación de "
                "Lazos Europeos y Acción), Mengíbar, Jaén, Spain.")
@@ -98,8 +99,8 @@ def setup_common(fb, feature_text):
         "fullName": "Aleua Sans Bold",
         "version": f"Version {VERSION:.3f}",
         "psName": "AleuaSans-Bold",
-        "manufacturer": "The Aleua Sans Project Authors",
-        "designer": "The Aleua Sans Project Authors",
+        "manufacturer": AUTHOR,
+        "designer": AUTHOR,
         "description": DESCRIPTION,
         "licenseDescription": LICENSE,
         "licenseInfoURL": LICENSE_URL,

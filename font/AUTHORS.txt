@@ -1,9 +1,7 @@
-# This is the official list of project authors for copyright purposes.
-# This file is distinct from the CONTRIBUTORS file.
-# See the latter for an explanation.
+# This is the official list of Aleua Sans authors for copyright purposes.
 #
 # Names should be added to this file as:
 # Name or Organization <email address>
 # The email address is not required for organizations.
 
-Manu
+Asociación ALEUA (Asociación de Lazos Europeos y Acción), Mengíbar, Jaén, Spain
